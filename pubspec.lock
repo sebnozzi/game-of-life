@@ -37,6 +37,10 @@ packages:
     description: csslib
     source: hosted
     version: "0.12.2"
+  dart_range:
+    description: dart_range
+    source: hosted
+    version: "0.0.1"
   glob:
     description: glob
     source: hosted

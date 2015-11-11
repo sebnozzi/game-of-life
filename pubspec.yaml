@@ -7,8 +7,8 @@ description: A sample command-line application.
 environment:
   sdk: '>=1.0.0 <2.0.0'
 
-#dependencies:
-#  foo_bar: '>=1.0.0 <2.0.0'
+dependencies:
+  dart_range: "^0.0.1"
 
 dev_dependencies:
   test: '>=0.12.0 <0.13.0'

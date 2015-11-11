@@ -4,6 +4,8 @@
 /// The game_of_life library.
 library game_of_life;
 
+import 'package:dart_range/dart_range.dart';
+
 class Position {
 
   int x;
@@ -20,6 +22,11 @@ class Position {
     return new Position(this.x + other.x, this.y + other.y);
   }
 
+  @override
+  String toString() {
+    return "Pos(x: $x, y: $y)";
+  }
+
 }
 
 class Board {
@@ -28,21 +35,51 @@ class Board {
 
   bool isEmpty() => true;
 
+
   Board nextState() {
     Board nextBoard = new Board();
 
-    // iterate over cells
-    // count neighbours for each cell
-    // if it has 2, then it lives on
-
-    for(Position position in _cells.toList()) {
-      int neighbourCount = _countNeighboursAt(position);
-      if(neighbourCount == 2) {
-        nextBoard.addCellAt(position.x, position.y);
-      }
-    }
+    _processLiveCells(nextBoard);
+    _processDeadCells(nextBoard);
 
     return nextBoard;
+  }
+
+  void _processDeadCells(Board nextBoard) {
+    // the problem is... where does our board start, where does it end?
+    // we need to find max-x, max-y, and assume (0,0) as a starting point
+    BoardDimensions dimensions = _findBoardDimensions();
+
+    // iterate over dead cells within our dimensions
+    for(int y in dimensions.rangeY()){
+      for(int x in dimensions.rangeX()) {
+        if(!hasCellAt(x,y)){
+          int count = _countNeighboursAt(new Position(x,y));
+          if(count == 3){
+            nextBoard.addCellAt(x,y);
+          }
+        }
+      }
+    }
+  }
+
+  BoardDimensions _findBoardDimensions() {
+    int minX = 0;
+    int minY = 0;
+    int maxX = 0;
+    int maxY = 0;
+
+    for (Position position in _cells) {
+      if (position.x > maxX) maxX = position.x;
+      if (position.y > maxY) maxY = position.y;
+      if (position.x < minX) minX = position.x;
+      if (position.y < minY) minY = position.y;
+    }
+
+    Position topLeft = new Position(minX, minY);
+    Position bottomRight = new Position(maxX, maxY);
+
+    return new BoardDimensions(topLeft, bottomRight);
   }
 
   void addCellAt(int x, int y) {
@@ -51,6 +88,16 @@ class Board {
 
   bool hasCellAt(int x, int y) {
     return _cells.any((p) => p.isAt(x, y));
+  }
+
+  _processLiveCells(Board nextBoard) {
+    for (Position position in _cells) {
+      int neighbourCount = _countNeighboursAt(position);
+
+      if (neighbourCount == 2 || neighbourCount == 3) {
+        nextBoard.addCellAt(position.x, position.y);
+      }
+    }
   }
 
   int _countNeighboursAt(Position pos) {
@@ -65,14 +112,32 @@ class Board {
       new Position(1, 1)
     ];
     int count = 0;
-    for(Position offset in neighbourOffsets){
+    for (Position offset in neighbourOffsets) {
       Position neighbourPos = pos.add(offset);
-      if(hasCellAt(neighbourPos.x, neighbourPos.y)) {
+      if (hasCellAt(neighbourPos.x, neighbourPos.y)) {
         count++;
       }
     }
     return count;
   }
+
+}
+
+class BoardDimensions {
+
+  Position topLeft;
+  Position bottomRight;
+
+  BoardDimensions(this.topLeft, this.bottomRight);
+
+  Range rangeY() => inclusiveIntRange(topLeft.y, bottomRight.y);
+  Range rangeX() => inclusiveIntRange(topLeft.x, bottomRight.x);
+
+  @override
+  String toString() {
+    return "BoardDimensions(topLeft: $topLeft, bottomRight: $bottomRight)";
+  }
+
 
 }
 

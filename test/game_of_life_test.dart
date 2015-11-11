@@ -20,7 +20,6 @@ Board makeBoardWithCellAt_2_2() {
 void main() {
 
 
-
   group('initially', () {
 
     test('a board is empty', () {
@@ -77,20 +76,20 @@ void main() {
 
       test('Lone cell', () {
         var board = new Board();
-        board.addCellAt(2,2);
+        board.addCellAt(2, 2);
         var nextBoard = board.nextState();
-        expect(nextBoard.hasCellAt(2,2), isFalse);
+        expect(nextBoard.hasCellAt(2, 2), isFalse);
       });
 
       test('Only one neighbour', () {
         var board = new Board();
-        board.addCellAt(2,2);
-        board.addCellAt(3,2);
+        board.addCellAt(2, 2);
+        board.addCellAt(3, 2);
 
         var nextBoard = board.nextState();
 
-        expect(nextBoard.hasCellAt(2,2), isFalse);
-        expect(nextBoard.hasCellAt(3,2), isFalse);
+        expect(nextBoard.hasCellAt(2, 2), isFalse);
+        expect(nextBoard.hasCellAt(3, 2), isFalse);
       });
 
     });
@@ -99,16 +98,16 @@ void main() {
 
       test('Cell with four neighbours', () {
         var board = new Board();
-        board.addCellAt(2,2);
+        board.addCellAt(2, 2);
         // Neighbours:
-        board.addCellAt(3,2);
-        board.addCellAt(1,2);
-        board.addCellAt(2,1);
-        board.addCellAt(2,3);
+        board.addCellAt(3, 2);
+        board.addCellAt(1, 2);
+        board.addCellAt(2, 1);
+        board.addCellAt(2, 3);
 
         var nextBoard = board.nextState();
 
-        expect(nextBoard.hasCellAt(2,2), isFalse);
+        expect(nextBoard.hasCellAt(2, 2), isFalse);
       });
 
     });
@@ -117,28 +116,42 @@ void main() {
 
       test('Cell with TWO neighbours', () {
         var board = new Board();
-        board.addCellAt(2,2);
+        board.addCellAt(2, 2);
         // Neighbours:
-        board.addCellAt(3,2);
-        board.addCellAt(1,2);
+        board.addCellAt(3, 2);
+        board.addCellAt(1, 2);
 
         var nextBoard = board.nextState();
 
-        expect(nextBoard.hasCellAt(2,2), isTrue);
+        expect(nextBoard.hasCellAt(2, 2), isTrue);
       });
 
       test('Cell with THREE neighbours', () {
         var board = new Board();
-        board.addCellAt(2,2);
+        board.addCellAt(2, 2);
         // Neighbours:
-        board.addCellAt(3,2);
-        board.addCellAt(1,2);
-        board.addCellAt(2,1);
+        board.addCellAt(3, 2);
+        board.addCellAt(1, 2);
+        board.addCellAt(2, 1);
 
         var nextBoard = board.nextState();
 
-        expect(nextBoard.hasCellAt(2,2), isTrue);
-      }, skip: 'need to test only with two neighbours first');
+        expect(nextBoard.hasCellAt(2, 2), isTrue);
+      });
+
+    });
+
+    test('4. Any dead cell with exactly three live neighbours becomes a live cell.', () {
+
+      var board = new Board();
+      // Neighbours of empty (2,2):
+      board.addCellAt(3, 2);
+      board.addCellAt(1, 2);
+      board.addCellAt(2, 1);
+
+      var nextBoard = board.nextState();
+
+      expect(nextBoard.hasCellAt(2, 2), isTrue);
 
     });
 
