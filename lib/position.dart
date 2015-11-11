@@ -14,7 +14,7 @@ class Position {
 
   bool equalsXY(int x, int y) => this.x == x && this.y == y;
 
-  Position plus(Position other) => new Position(this.x + other.x, this.y + other.y);
+  Position operator + (Position other) => new Position(this.x + other.x, this.y + other.y);
 
   @override
   String toString() =>  "Pos(x: $x, y: $y)";

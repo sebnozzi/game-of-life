@@ -83,7 +83,7 @@ class Board {
     ];
     int count = 0;
     for (Position offset in neighbourOffsets) {
-      Position neighbourPos = pos.plus(offset);
+      Position neighbourPos = pos + offset;
       if (hasLiveCellAt(neighbourPos.x, neighbourPos.y)) {
         count++;
       }
