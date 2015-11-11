@@ -13,7 +13,7 @@ Board makeEmptyBoard() {
 
 Board makeBoardWithCellAt_2_2() {
   Board board = new Board();
-  board.addCellAt(2, 2);
+  board.addLiveCellAt(2, 2);
   return board;
 }
 
@@ -31,17 +31,17 @@ void main() {
 
   test('a board can add live cells', () {
     Board board = new Board();
-    board.addCellAt(2, 2);
+    board.addLiveCellAt(2, 2);
   });
 
   group('asking for cells:', () {
     test('should find present cell', () {
       Board board = makeBoardWithCellAt_2_2();
-      expect(board.hasCellAt(2, 2), isTrue);
+      expect(board.hasLiveCellAt(2, 2), isTrue);
     });
     test('should NOT find absent cell', () {
       Board board = makeBoardWithCellAt_2_2();
-      expect(board.hasCellAt(3, 5), isFalse);
+      expect(board.hasLiveCellAt(3, 5), isFalse);
     });
   });
 
@@ -76,20 +76,20 @@ void main() {
 
       test('Lone cell', () {
         var board = new Board();
-        board.addCellAt(2, 2);
+        board.addLiveCellAt(2, 2);
         var nextBoard = board.nextState();
-        expect(nextBoard.hasCellAt(2, 2), isFalse);
+        expect(nextBoard.hasLiveCellAt(2, 2), isFalse);
       });
 
       test('Only one neighbour', () {
         var board = new Board();
-        board.addCellAt(2, 2);
-        board.addCellAt(3, 2);
+        board.addLiveCellAt(2, 2);
+        board.addLiveCellAt(3, 2);
 
         var nextBoard = board.nextState();
 
-        expect(nextBoard.hasCellAt(2, 2), isFalse);
-        expect(nextBoard.hasCellAt(3, 2), isFalse);
+        expect(nextBoard.hasLiveCellAt(2, 2), isFalse);
+        expect(nextBoard.hasLiveCellAt(3, 2), isFalse);
       });
 
     });
@@ -98,16 +98,16 @@ void main() {
 
       test('Cell with four neighbours', () {
         var board = new Board();
-        board.addCellAt(2, 2);
+        board.addLiveCellAt(2, 2);
         // Neighbours:
-        board.addCellAt(3, 2);
-        board.addCellAt(1, 2);
-        board.addCellAt(2, 1);
-        board.addCellAt(2, 3);
+        board.addLiveCellAt(3, 2);
+        board.addLiveCellAt(1, 2);
+        board.addLiveCellAt(2, 1);
+        board.addLiveCellAt(2, 3);
 
         var nextBoard = board.nextState();
 
-        expect(nextBoard.hasCellAt(2, 2), isFalse);
+        expect(nextBoard.hasLiveCellAt(2, 2), isFalse);
       });
 
     });
@@ -116,27 +116,27 @@ void main() {
 
       test('Cell with TWO neighbours', () {
         var board = new Board();
-        board.addCellAt(2, 2);
+        board.addLiveCellAt(2, 2);
         // Neighbours:
-        board.addCellAt(3, 2);
-        board.addCellAt(1, 2);
+        board.addLiveCellAt(3, 2);
+        board.addLiveCellAt(1, 2);
 
         var nextBoard = board.nextState();
 
-        expect(nextBoard.hasCellAt(2, 2), isTrue);
+        expect(nextBoard.hasLiveCellAt(2, 2), isTrue);
       });
 
       test('Cell with THREE neighbours', () {
         var board = new Board();
-        board.addCellAt(2, 2);
+        board.addLiveCellAt(2, 2);
         // Neighbours:
-        board.addCellAt(3, 2);
-        board.addCellAt(1, 2);
-        board.addCellAt(2, 1);
+        board.addLiveCellAt(3, 2);
+        board.addLiveCellAt(1, 2);
+        board.addLiveCellAt(2, 1);
 
         var nextBoard = board.nextState();
 
-        expect(nextBoard.hasCellAt(2, 2), isTrue);
+        expect(nextBoard.hasLiveCellAt(2, 2), isTrue);
       });
 
     });
@@ -145,13 +145,13 @@ void main() {
 
       var board = new Board();
       // Neighbours of empty (2,2):
-      board.addCellAt(3, 2);
-      board.addCellAt(1, 2);
-      board.addCellAt(2, 1);
+      board.addLiveCellAt(3, 2);
+      board.addLiveCellAt(1, 2);
+      board.addLiveCellAt(2, 1);
 
       var nextBoard = board.nextState();
 
-      expect(nextBoard.hasCellAt(2, 2), isTrue);
+      expect(nextBoard.hasLiveCellAt(2, 2), isTrue);
 
     });
 
