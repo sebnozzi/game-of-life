@@ -4,6 +4,12 @@
 /// The game_of_life library.
 library game_of_life;
 
-int calculate() {
-  return 6 * 7;
+class Board {
+
+  bool isEmpty() => true;
+
+  Board nextState() {
+    return new Board();
+  }
 }
+
