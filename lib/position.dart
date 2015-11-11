@@ -12,17 +12,11 @@ class Position {
     assert(y != null);
   }
 
-  bool equalsXY(int x, int y) {
-    return this.x == x && this.y == y;
-  }
+  bool equalsXY(int x, int y) => this.x == x && this.y == y;
 
-  Position plus(Position other) {
-    return new Position(this.x + other.x, this.y + other.y);
-  }
+  Position plus(Position other) => new Position(this.x + other.x, this.y + other.y);
 
   @override
-  String toString() {
-    return "Pos(x: $x, y: $y)";
-  }
+  String toString() =>  "Pos(x: $x, y: $y)";
 
 }

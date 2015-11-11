@@ -1,13 +1,11 @@
 library game_of_life.board;
 
 import 'position.dart';
-import 'board_dimensions.dart';
+import 'dimensions.dart';
 
 class Board {
 
   Set<Position> _cells = new Set();
-
-  bool isEmpty() => true;
 
   void addLiveCellAt(int x, int y) {
     _cells.add(new Position(x, y));
@@ -20,28 +18,39 @@ class Board {
   Board nextState() {
     Board nextBoard = new Board();
 
-    _processLiveCells(nextBoard);
-    _processDeadCells(nextBoard);
+    _populateSurvivingCells(nextBoard);
+    _populateArisingCells(nextBoard);
 
     return nextBoard;
   }
 
-  void _processDeadCells(Board nextBoard) {
-    _iterateOverDeadCells((Position p) {
+  // #### PRIVATE ####
+
+  _populateSurvivingCells(Board targetBoard) {
+    for (Position position in _cells) {
+      int neighbourCount = _countLiveNeighboursAt(position);
+
+      if (neighbourCount == 2 || neighbourCount == 3) {
+        targetBoard.addLiveCellAt(position.x, position.y);
+      }
+    }
+  }
+
+  void _populateArisingCells(Board targetBoard) {
+    _forEachDeadCell((Position p) {
       if (_countLiveNeighboursAt(p) == 3)
-        nextBoard.addLiveCellAt(p.x, p.y);
+        targetBoard.addLiveCellAt(p.x, p.y);
     });
   }
 
-  void _iterateOverDeadCells(PosFunc f) {
-    BoardDimensions dimensions = _findBoardDimensions();
+  void _forEachDeadCell(PosFunc f) {
+    Dimensions dimensions = _findBoardDimensions();
     dimensions.forEachPosition((Position p) {
-      if (!hasLiveCellAt(p.x, p.y))
-        f(p);
+      if (!hasLiveCellAt(p.x, p.y)) f(p);
     });
   }
 
-  BoardDimensions _findBoardDimensions() {
+  Dimensions _findBoardDimensions() {
     int minX = 0;
     int minY = 0;
     int maxX = 0;
@@ -57,19 +66,9 @@ class Board {
     Position topLeft = new Position(minX, minY);
     Position bottomRight = new Position(maxX, maxY);
 
-    return new BoardDimensions(topLeft, bottomRight);
+    return new Dimensions(topLeft, bottomRight);
   }
 
-
-  _processLiveCells(Board nextBoard) {
-    for (Position position in _cells) {
-      int neighbourCount = _countLiveNeighboursAt(position);
-
-      if (neighbourCount == 2 || neighbourCount == 3) {
-        nextBoard.addLiveCellAt(position.x, position.y);
-      }
-    }
-  }
 
   int _countLiveNeighboursAt(Position pos) {
     List<Position> neighbourOffsets = [

@@ -4,12 +4,12 @@ import 'position.dart';
 
 import 'package:dart_range/dart_range.dart';
 
-class BoardDimensions {
+class Dimensions {
 
   Position topLeft;
   Position bottomRight;
 
-  BoardDimensions(this.topLeft, this.bottomRight) {
+  Dimensions(this.topLeft, this.bottomRight) {
     assert(topLeft != null);
     assert(bottomRight != null);
   }
@@ -19,9 +19,7 @@ class BoardDimensions {
   Range rangeY() => inclusiveIntRange(topLeft.y, bottomRight.y);
 
   @override
-  String toString() {
-    return "BoardDimensions(topLeft: $topLeft, bottomRight: $bottomRight)";
-  }
+  String toString() => "Dimensions(topLeft: $topLeft, bottomRight: $bottomRight)";
 
   void forEachPosition(PosFunc f) {
     for (int y in rangeY()) {
