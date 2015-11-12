@@ -14,16 +14,16 @@ class Dimensions {
     assert(bottomRight != null);
   }
 
-  Range rangeX() => inclusiveIntRange(topLeft.x, bottomRight.x);
+  Range get rangeX => inclusiveIntRange(topLeft.x, bottomRight.x);
 
-  Range rangeY() => inclusiveIntRange(topLeft.y, bottomRight.y);
+  Range get rangeY => inclusiveIntRange(topLeft.y, bottomRight.y);
 
   @override
   String toString() => "Dimensions(topLeft: $topLeft, bottomRight: $bottomRight)";
 
   void forEachPosition(PosFunc f) {
-    for (int y in rangeY()) {
-      for (int x in rangeX()) {
+    for (int y in rangeY) {
+      for (int x in rangeX) {
         f(new Position(x, y));
       }
     }

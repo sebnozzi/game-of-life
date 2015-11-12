@@ -11,9 +11,8 @@ class Board {
     _cells.add(new Position(x, y));
   }
 
-  bool hasLiveCellAt(int x, int y) {
-    return _cells.any((p) => p.equalsXY(x, y));
-  }
+  bool hasLiveCellAt(int x, int y) =>
+    _cells.any((p) => p.equalsXY(x, y));
 
   Board nextState() {
     Board nextBoard = new Board();
